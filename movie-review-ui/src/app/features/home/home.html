@@ -1,0 +1,31 @@
+<!-- 
+
+<div class="home-container">
+  <h1>Welcome to MovieReview</h1>
+  <p>Discover and review your favorite movies.<br>Join the community of movie lovers!</p>
+  <button mat-raised-button class="landing-btn" routerLink="/movies">
+    Browse Movies
+  </button>
+</div>
+ -->
+
+
+
+<div class="home-container" role="region" aria-label="Landing hero">
+  <h1 class="hero-title">Welcome to MovieReview</h1>
+
+  <p class="hero-sub">
+    Discover and review your favorite movies.<br />
+    Join the community of movie lovers!
+  </p>
+
+  <div class="btn-wrapper">
+    <button 
+      mat-raised-button 
+      class="landing-btn" 
+      routerLink="/manage-movies" 
+      aria-label="Browse Movies">
+      Browse Movies
+    </button>
+  </div>
+</div>

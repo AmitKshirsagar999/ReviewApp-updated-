@@ -1,0 +1,225 @@
+<!-- <div class="add-movie-container">
+  @if (loading() && isEditMode()) {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading movie details...</p>
+    </div>
+  } @else {
+    <mat-card class="add-movie-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>{{ isEditMode() ? 'edit' : 'add_circle' }}</mat-icon>
+          {{ pageTitle }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ pageSubtitle }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Movie Title </mat-label>
+            <input 
+              matInput 
+              formControlName="title" 
+              placeholder="Enter the movie title"
+              maxlength="200">
+            <mat-icon matSuffix>title</mat-icon>
+            @if (isFieldInvalid('title')) {
+              <mat-error>{{ getFieldError('title') }}</mat-error>
+            }
+            <mat-hint>{{ movieForm.get('title')?.value?.length || 0 }}/200</mat-hint>
+          </mat-form-field>
+
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Director </mat-label>
+              <input 
+                matInput 
+                formControlName="director" 
+                placeholder="Enter director name"
+                maxlength="100">
+              <mat-icon matSuffix>person</mat-icon>
+              @if (isFieldInvalid('director')) {
+                <mat-error>{{ getFieldError('director') }}</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Genre</mat-label>
+              <mat-select formControlName="genre">
+                <mat-option value="">Select a genre</mat-option>
+                @for (genre of genres; track genre) {
+                  <mat-option [value]="genre">{{ genre }}</mat-option>
+                }
+              </mat-select>
+              <mat-icon matSuffix>category</mat-icon>
+            </mat-form-field>
+          </div>
+
+        
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea 
+              matInput 
+              formControlName="description" 
+              rows="4" 
+              placeholder="Tell us about this movie..."
+              maxlength="1000">
+            </textarea>
+            
+            @if (isFieldInvalid('description')) {
+              <mat-error>{{ getFieldError('description') }}</mat-error>
+            }
+            <mat-hint>
+              Optional: Add a brief description • {{ movieForm.get('description')?.value?.length || 0 }}/1000
+            </mat-hint>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+
+      <mat-card-actions class="form-actions">
+        <button 
+          mat-raised-button 
+          color="blue" 
+          type="submit" 
+          (click)="onSubmit()"
+          [disabled]="!isFormValid || loading()">
+          @if (loading()) {
+            
+            {{ isEditMode() ? 'Updating...' : 'Adding Movie...' }}
+          } @else {
+            <ng-container>
+                
+            {{ submitButtonText }}
+            </ng-container>
+           
+          }
+        </button>
+        
+        <button 
+          mat-stroked-button 
+          type="button" 
+          (click)="onCancel()" 
+          [disabled]="loading()">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div> -->
+
+
+
+
+
+<!-- add-movie.html -->
+<div class="add-movie-container">
+
+  <!-- Top loader (display controlled via style) -->
+  <div class="loading-container" [style.display]="(loading() && isEditMode()) ? 'flex' : 'none'">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Loading movie details...</p>
+  </div>
+
+  <!-- Main card (hidden while loader shows for edit) -->
+  <mat-card class="add-movie-card" [style.display]="(loading() && isEditMode()) ? 'none' : 'block'">
+
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title>
+        <!-- <mat-icon aria-hidden="true">{{ isEditMode() ? 'edit' : 'add_circle' }}</mat-icon> -->
+        {{ pageTitle }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <!-- Content -->
+    <mat-card-content>
+      <form [formGroup]="movieForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Title -->
+        <mat-form-field appearance="outline" class="full-width title-field">
+          <mat-label>Movie Title</mat-label>
+          <input matInput formControlName="title" placeholder="Enter the movie title" maxlength="200" />
+          <mat-icon matSuffix>title</mat-icon>
+          <mat-error [hidden]="!isFieldInvalid('title')">{{ getFieldError('title') }}</mat-error>
+          <mat-hint align="end">{{ movieForm.get('title')?.value?.length || 0 }}/200</mat-hint>
+        </mat-form-field>
+
+        <!-- Director + Genre row -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Director</mat-label>
+            <input matInput formControlName="director" placeholder="Enter director name" maxlength="100" />
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error [hidden]="!isFieldInvalid('director')">{{ getFieldError('director') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Genre</mat-label>
+            <mat-select formControlName="genre" placeholder="Select a genre">
+              <mat-option value="">None</mat-option>
+              <mat-option value="Action">Action</mat-option>
+              <mat-option value="Adventure">Adventure</mat-option>
+              <mat-option value="Animation">Animation</mat-option>
+              <mat-option value="Comedy">Comedy</mat-option>
+              <mat-option value="Crime">Crime</mat-option>
+              <mat-option value="Documentary">Documentary</mat-option>
+              <mat-option value="Drama">Drama</mat-option>
+              <mat-option value="Family">Family</mat-option>
+              <mat-option value="Fantasy">Fantasy</mat-option>
+              <mat-option value="Horror">Horror</mat-option>
+              <mat-option value="Music">Music</mat-option>
+              <mat-option value="Mystery">Mystery</mat-option>
+              <mat-option value="Romance">Romance</mat-option>
+              <mat-option value="Sci-Fi">Sci-Fi</mat-option>
+              <mat-option value="Thriller">Thriller</mat-option>
+              <mat-option value="War">War</mat-option>
+              <mat-option value="Western">Western</mat-option>
+            </mat-select>
+            <mat-icon matSuffix>category</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Description -->
+        <mat-form-field appearance="outline" class="full-width textarea-field">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"
+                    placeholder="Brief description (optional)" maxlength="1000"></textarea>
+          <mat-error [hidden]="!isFieldInvalid('description')">{{ getFieldError('description') }}</mat-error>
+          <mat-hint align="end">Optional • {{ movieForm.get('description')?.value?.length || 0 }}/1000</mat-hint>
+        </mat-form-field>
+
+      </form>
+    </mat-card-content>
+
+    <!-- Actions -->
+    <mat-card-actions class="form-actions">
+      <div class="action-spacer"></div>
+
+      <div class="action-buttons">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!isFormValid || loading()"
+          (click)="onSubmit()">
+
+          <mat-spinner class="btn-spinner" diameter="18" [style.display]="loading() ? 'inline-block' : 'none'"></mat-spinner>
+
+          <span class="btn-label">
+            {{ loading() ? (isEditMode() ? 'Updating...' : 'Adding...') : submitButtonText }}
+          </span>
+        </button>
+
+        <button mat-stroked-button type="button" (click)="onCancel()" [disabled]="loading()">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

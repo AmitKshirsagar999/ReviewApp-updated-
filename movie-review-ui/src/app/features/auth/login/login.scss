@@ -1,0 +1,42 @@
+// .page-center {
+//   min-height: calc(100vh - 64px);
+//   // padding: 24px;
+//   padding-top: 64px;  // Same height as your header toolbar
+//   background-color: white;
+//     background: url('https://images.pexels.com/photos/3945321/pexels-photo-3945321.jpeg') no-repeat center center/cover !important;
+//     background-attachment: fixed;
+// }
+
+
+.error-message {
+  color: #f44336;
+  background-color: #ffebee;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  border-left: 4px solid #f44336;
+}
+
+h2{
+  display: flex;
+  justify-content: center;
+}
+
+.login-button {
+  background-color: green !important; /* Green color */
+  color: white !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.login-button:disabled {
+  background-color: skyblue !important; /* Light green when disabled */
+  color: #d1fae5 !important;
+}
+
+.login-button:hover:not(:disabled) {
+  background-color: #059669 !important; /* Darker green on hover */
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+  transform: translateY(-2px);
+}
+
