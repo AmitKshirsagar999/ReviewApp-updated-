@@ -1,0 +1,148 @@
+<!-- 
+  <div class="center">
+  <mat-card>
+    <h2>Register</h2>
+    
+  
+    @if (successMessage) {
+      <div class="success-message">
+        {{ successMessage }}
+      </div>
+    }
+    
+    Error Message 
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" />
+        @if (form.get('username')?.invalid && form.get('username')?.touched) {
+          <mat-error>Username is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <mat-error>
+            @if (form.get('email')?.errors?.['required']) {
+              Email is required
+            } @else if (form.get('email')?.errors?.['email']) {
+              Please enter a valid email
+            }
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <mat-error>
+            @if (form.get('password')?.errors?.['required']) {
+              Password is required
+            } @else if (form.get('password')?.errors?.['minlength']) {
+              Password must be at least 6 characters
+            }
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" 
+              class="register-button"
+              [disabled]="form.invalid || loading">
+        @if (loading) {
+          Registering...
+        } @else {
+          Register
+        }
+      </button>
+    </form>
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+  </mat-card>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+<div class="center">
+  <!-- ✅ Use Angular 20's CSS animation class -->
+  @if (showForm()) {
+    <mat-card class="fade-in">
+      <h2>Register</h2>
+      
+      @if (successMessage) {
+        <div class="success-message">
+          {{ successMessage }}
+        </div>
+      }
+      
+      @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      }
+      
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+          @if (form.get('username')?.invalid && form.get('username')?.touched) {
+            <mat-error>Username is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+          @if (form.get('email')?.invalid && form.get('email')?.touched) {
+            <mat-error>
+              @if (form.get('email')?.errors?.['required']) {
+                Email is required
+              } @else if (form.get('email')?.errors?.['email']) {
+                Please enter a valid email
+              }
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+          @if (form.get('password')?.invalid && form.get('password')?.touched) {
+            <mat-error>
+              @if (form.get('password')?.errors?.['required']) {
+                Password is required
+              } @else if (form.get('password')?.errors?.['minlength']) {
+                Password must be at least 6 characters
+              }
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" 
+                class="register-button"
+                [disabled]="form.invalid || loading">
+          @if (loading) {
+            Registering...
+          } @else {
+            Register
+          }
+        </button>
+      </form>
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </mat-card>
+  }
+</div>

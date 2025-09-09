@@ -1,0 +1,256 @@
+<section class="movie-detail-page">
+
+  
+  <div class="top-actions">
+    <button mat-stroked-button class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>Go Back
+    </button>
+  </div>
+
+  
+  @if (loading()) {
+    <div class="loading-overlay" aria-hidden="true">
+      <mat-spinner diameter="64"></mat-spinner>
+      <div class="loading-text">Loading movie details...</div>
+    </div>
+  }
+
+  
+  @if (movie()) {
+    <div class="movie-detail-wrapper">
+
+      
+      <mat-card class="movie-card" role="region" aria-label="Movie details">
+        <div class="card-inner">
+
+          
+          <header class="card-header">
+            <h1 class="movie-title">{{ movie()!.title }}</h1>
+
+            @if (isMovieOwner()) {
+              <div class="header-actions" role="group" aria-label="Owner actions">
+                <button mat-stroked-button color="primary" class="action edit" (click)="editMovie()">
+                  <mat-icon>edit</mat-icon>
+                  Edit
+                </button>
+                <button mat-stroked-button color="warn" class="action delete" (click)="deleteMovie()">
+                  <mat-icon>delete</mat-icon>
+                  Delete
+                </button>
+              </div>
+            }
+          </header>
+
+          
+          <div class="info-row" role="list">
+            <div class="info-item" role="listitem">
+              <div class="label">DIRECTOR</div>
+              <div class="value">{{ movie()!.director }}</div>
+            </div>
+
+            <div class="info-item" role="listitem">
+              <div class="label">GENRE</div>
+              <div class="value">{{ movie()!.genre || '—' }}</div>
+            </div>
+
+            <div class="info-item" role="listitem">
+              <div class="label">RELEASE</div>
+              <div class="value">{{ movie()!.createdDate | date:'MMM d, yyyy' }}</div>
+            </div>
+
+            <div class="info-item rating-item" role="listitem">
+              <div class="label">RATING</div>
+
+              <div class="stars" aria-hidden="true">
+                @for (s of getStars(movie()!.averageRating); track s) {
+                  <mat-icon class="star-icon" [class.filled]="s === 'star' || s === 'star_half'">
+                    {{ s }}
+                  </mat-icon>
+                }
+              </div>
+
+              <div class="rating-text">
+                {{ movie()!.averageRating | number:'1.1-1' }} ({{ movie()!.reviewCount }} reviews)
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="description-box" style="font-family: cursive;">
+            <p>
+              {{ movie()!.description || 'No description available for this movie.' }}
+            </p>
+          </div>
+
+        </div>
+
+        <br><br>
+
+
+        
+      <div class="two-column-area">
+
+       
+        <aside class="left-column">
+          
+          <mat-card class="rate-card">
+            <h3>Rate this movie</h3>
+
+            <div class="star-picker" role="radiogroup" aria-label="Rate this movie">
+              @for (opt of ratingOptions; track opt) {
+                <button
+                  mat-icon-button
+                  class="star-btn"
+                  (click)="onRatingClick(opt)"
+                  [attr.aria-pressed]="selectedRating() === opt"
+                  aria-label="Rate {{ opt }} stars">
+                  <mat-icon class="star-picker-icon" [class.filled]="selectedRating() >= opt">star</mat-icon>
+                </button>
+              }
+            </div>
+
+            @if (selectedRating() > 0) {
+              <div class="your-rating">You rated <strong>{{ selectedRating() }}</strong> stars</div>
+            } @else {
+              <div class="your-rating muted">You haven't rated yet</div>
+            }
+          </mat-card>
+
+          
+          <mat-card class="write-review-card">
+            
+
+            <form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Leave a review</mat-label>
+                <textarea matInput rows="6" formControlName="reviewText" maxlength="2000"
+                          placeholder="Share your thoughts..."></textarea>
+                <mat-hint align="end">{{ reviewForm.get('reviewText')?.value?.length || 0 }}/2000</mat-hint>
+              </mat-form-field>
+
+              <div class="review-actions">
+                @if (reviewLoading()) {
+                  <button mat-raised-button color="primary" disabled>
+                    <mat-spinner diameter="18"></mat-spinner>
+                    Submitting...
+                  </button>
+                } @else {
+                  <button mat-raised-button color="primary" type="submit">
+                    Submit Review
+                  </button>
+                }
+              </div>
+            </form>
+          </mat-card>
+        </aside>
+
+       
+        <section class="right-column">
+          <mat-card class="reviews-card">
+            <h3>Reviews</h3>
+
+            <!-- ✅ ADD THIS: Reviews Loading Overlay -->
+    @if (reviewsLoading()) {
+      <div class="reviews-loading-overlay">
+        <mat-spinner diameter="40"></mat-spinner>
+        <div class="loading-text">Loading reviews...</div>
+      </div>
+    }
+
+
+
+
+            @if (!movie()!.reviews || movie()!.reviews.length === 0) {
+              <div class="no-reviews">
+                <mat-icon>rate_review</mat-icon>
+                <p>No reviews yet. Be the first to review this movie!</p>
+              </div>
+            } @else {
+              <div class="reviews-list">
+                @for (rev of movie()!.reviews; track rev.reviewId) {
+                  <article class="review-item" role="article" aria-label="Review by {{ rev.userName }}">
+                    <div class="reviewer">
+                      <mat-icon class="avatar">account_circle</mat-icon>
+                      <div class="meta">
+                        
+
+                        <div style="display: flex; flex-direction: row; gap: 10px;"> 
+                          <strong class="name">{{ rev.userName }}</strong>
+                          <div class="date">{{ rev.createdDate | date:'MMM d, yyyy' }}</div>
+                        </div>
+                        
+
+
+
+                        <!-- ✅ ADD THIS: Rating Stars -->
+        @if (rev.ratingValue && rev.ratingValue > 0) {
+          <div class="user-rating-stars">
+            @for (s of getStarsForRating(rev.ratingValue); track s) {
+              <mat-icon class="review-star-icon" [class.filled]="s === 'star'">
+                {{ s }}
+              </mat-icon>
+            }
+          </div>
+        }
+
+
+                          <div style="overflow-wrap: anywhere;"><p>{{ rev.reviewText }}</p></div>
+
+
+                      </div>
+                    </div>
+                    <!-- <div class="review-body">
+                      
+                    </div> -->
+                  </article>
+
+                  @if (!$last) {
+                    <mat-divider></mat-divider>
+                  }
+                }
+              </div>
+
+              @if (reviewsPagination().totalCount > reviewsPagination().pageSize) {
+                <div class="reviews-pagination">
+                  <button mat-button (click)="goToPreviousReviewPage()" [disabled]="reviewsPagination().currentPage <= 1">
+                    <mat-icon>chevron_left</mat-icon> Previous
+                  </button>
+
+                  <div class="page-info">
+                    Page {{ reviewsPagination().currentPage }} of {{ reviewsPagination().totalPages }}
+                  </div>
+
+                  <button mat-button (click)="goToNextReviewPage()" [disabled]="reviewsPagination().currentPage >= reviewsPagination().totalPages">
+                    Next <mat-icon>chevron_right</mat-icon>
+                  </button>
+                </div>
+              }
+            }
+          </mat-card>
+        </section>
+
+      </div> 
+
+
+      </mat-card>
+
+      
+    </div>
+
+  } @else {
+    
+    <div class="no-data">
+      <p>Movie details not available.</p>
+    </div>
+  }
+
+</section>  
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,77 @@
+<!-- 
+ <div class="center">
+  <mat-card>
+    <h2>Login</h2>
+    
+    Error Message Display
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" 
+            class="login-button"
+              [disabled]="form.invalid || loading">
+        @if (loading) {
+          Logging in...
+        } @else {
+          Login
+        }
+      </button>
+    </form>
+    <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+  </mat-card>
+</div> -->
+
+
+
+<div class="center">
+  <!-- ✅ Use Angular 20's new animation syntax -->
+  @if (showForm()) {
+    <mat-card animate.enter="fade-in">
+      <h2>Login</h2>
+      
+      @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      }
+      
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" 
+              class="login-button"
+                [disabled]="form.invalid || loading">
+          @if (loading) {
+            Logging in...
+          } @else {
+            Login
+          }
+        </button>
+      </form>
+      <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+    </mat-card>
+  }
+</div>
+

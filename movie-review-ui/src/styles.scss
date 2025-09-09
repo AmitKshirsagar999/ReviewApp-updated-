@@ -1,0 +1,140 @@
+
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; width:100% }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* styles.scss or each component scss */
+.center { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+.full-width { width:100%; }
+mat-card { width:360px; padding:24px; }
+
+:root {
+  --bg: #fafcfb;          // soft background
+  --text: #0f172a;        // near-slate
+  --muted: #64748b;       // slate-500
+  // --primary: #0f8692;     // teal-ish like your mock
+  --radius: 16px;
+  --card-width: 380px;    // login/register width
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  
+}
+
+
+
+.page-center {
+  min-height: calc(100vh - 64px);
+  // padding: 24px;
+  padding-top: 64px;  // Same height as your header toolbar
+  background-color:bisque;
+background: url('https://images.pexels.com/photos/3945321/pexels-photo-3945321.jpeg') no-repeat center center/cover;
+  background-attachment: fixed;
+
+  // Remove centering grid styles
+  display: block; 
+  padding: 2% 0 2% 0;
+}
+
+/* Card styling to match the mock */
+mat-card {
+  width: var(--card-width);
+  padding: 24px 24px 16px;
+  border-radius: var(--radius);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 8px 24px rgba(2, 44, 62, 0.08);
+  background: #fff;
+  border:solid;
+}
+
+mat-card h2 {
+  margin: 0 0 8px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.helper-text {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+/* Form controls */
+.full-width { width: 100%; }
+mat-form-field { margin-top: 12px; }
+button[mat-raised-button] {
+  margin-top: 16px;
+  width: 100%;
+  border-radius: 999px;
+}
+
+/* Make primary feel like your teal */
+.mat-mdc-raised-button.mat-primary {
+  background-color: var(--primary) !important;
+}
+
+/* Links under the button */
+.auth-link {
+  margin-top: 12px;
+  text-align: center;
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+}
+
+
+
+
+// ✅ Keep white background but make it controllable
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color:transparent !important;
+  position: none !important;
+}
+
+
+

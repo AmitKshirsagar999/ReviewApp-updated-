@@ -1,0 +1,233 @@
+
+ <div class="movie-management-container">
+  <!-- Controls Bar - Single Line Layout -->
+  <div class="controls-bar">
+    <div class="search-group">
+      <mat-form-field appearance="fill" class="search-input">
+        <input matInput 
+               [formControl]="searchControl" 
+               placeholder="Search title or director"
+               maxlength="50">
+        <mat-icon matSuffix>search</mat-icon>
+        
+        <!-- ✅ UPDATED: Angular 20 syntax with @if -->
+        @if (searchControl.errors?.['maxlength']) {
+          <mat-error>Search must be 50 characters or less</mat-error>
+        }
+        
+        <!-- ✅ ADDED: Character counter -->
+        <!-- <mat-hint align="end" class="char-counter">
+          {{ searchControl.value?.length || 0 }}/50
+        </mat-hint> -->
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="genre-select">
+        <mat-label>Genre</mat-label>
+        <mat-select [formControl]="genreControl">
+          @for (genre of genres; track genre) {
+            <mat-option [value]="genre">{{ genre }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <button mat-raised-button class="add-movie-btn" (click)="addMovie()">
+      <mat-icon>add</mat-icon>
+      Add Movie
+    </button>
+  </div>
+
+  <!-- Table Section with Enhanced Loading -->
+  <div class="table-section">
+    <div class="table-header">
+      <h3>Movies ({{ paginationInfo().totalCount }})</h3>
+    </div>
+
+    <!-- Table Wrapper with Loading Overlay -->
+    <div class="table-wrapper">
+      
+      <!-- ✅ UPDATED: Angular 20 syntax -->
+      @if (loading()) {
+        <div class="spinner-overlay">
+          <mat-progress-spinner 
+            diameter="50" 
+            color="primary" 
+            mode="indeterminate">
+          </mat-progress-spinner>
+          <p class="loading-text">Loading movies...</p>
+        </div>
+      }
+
+      <!-- Table Content -->
+      @if (movies().length === 0 && !loading()) {
+        <div class="no-data">
+          <mat-icon>movie</mat-icon>
+          <h3>No movies found</h3>
+          <p>Try again to search...</p>
+        </div>
+      } @else if (!loading()) {
+        <!-- Table Container -->
+        <div class="table-container">
+          <table mat-table [dataSource]="movies()" class="movies-table">
+            
+            <!-- Title Column -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef class="sortable-header" (click)="onSort('title')">
+                <span class="sort-indicator" [class.active]="currentSort().sortBy === 'title'">
+                  Title
+                  <mat-icon>{{ getSortIcon('title') }}</mat-icon>
+                </span>
+              </th>
+              <td mat-cell *matCellDef="let movie" class="title-cell">
+                <span class="title-text">{{ movie.title }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Director Column -->
+            <ng-container matColumnDef="director">
+              <th mat-header-cell *matHeaderCellDef class="sortable-header" (click)="onSort('director')">
+                <span class="sort-indicator" [class.active]="currentSort().sortBy === 'director'">
+                  Director
+                  <mat-icon>{{ getSortIcon('director') }}</mat-icon>
+                </span>
+              </th>
+              <td mat-cell *matCellDef="let movie" class="director-cell">{{ movie.director }}</td>
+            </ng-container>
+
+            <!-- Genre Column -->
+            <ng-container matColumnDef="genre">
+              <th mat-header-cell *matHeaderCellDef>Genre</th>
+              <td mat-cell *matCellDef="let movie" class="genre-cell">
+                @if (movie.genre) {
+                  <span class="genre-badge">{{ movie.genre }}</span>
+                } @else {
+                  <span class="no-genre">—</span>
+                }
+              </td>
+            </ng-container>
+
+            <!-- Rating Column -->
+            <ng-container matColumnDef="averageRating">
+              <th mat-header-cell *matHeaderCellDef class="sortable-header" (click)="onSort('averageRating')">
+                <span class="sort-indicator" [class.active]="currentSort().sortBy === 'averageRating'">
+                  Rating
+                  <mat-icon>{{ getSortIcon('averageRating') }}</mat-icon>
+                </span>
+              </th>
+              <td mat-cell *matCellDef="let movie" class="rating-cell">
+                <div class="rating-display">
+                  <span class="rating-value">{{ movie.averageRating | number:'1.1-1' }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Review Count Column -->
+            <ng-container matColumnDef="reviewCount">
+              <th mat-header-cell *matHeaderCellDef class="sortable-header" (click)="onSort('reviewCount')">
+                <span class="sort-indicator" [class.active]="currentSort().sortBy === 'reviewCount'">
+                  Reviews
+                  <mat-icon>{{ getSortIcon('reviewCount') }}</mat-icon>
+                </span>
+              </th>
+              <td mat-cell *matCellDef="let movie" class="count-cell">{{ movie.reviewCount }}</td>
+            </ng-container>
+
+            <!-- Created Date Column -->
+            <ng-container matColumnDef="createdDate">
+              <th mat-header-cell *matHeaderCellDef class="sortable-header" (click)="onSort('createdDate')">
+                <span class="sort-indicator" [class.active]="currentSort().sortBy === 'createdDate'">
+                  Created On
+                  <mat-icon>{{ getSortIcon('createdDate') }}</mat-icon>
+                </span>
+              </th>
+              <td mat-cell *matCellDef="let movie" class="date-cell">{{ movie.createdDate | date:'MMM d, y' }}</td>
+            </ng-container>
+
+            <!-- Created By Column -->
+            <ng-container matColumnDef="createdBy">
+              <th mat-header-cell *matHeaderCellDef>Created By</th>
+              <td mat-cell *matCellDef="let movie" class="created-by-cell">
+                {{ movie.createdByUserName || movie.createdByUserEmail || 'System' }}
+              </td>
+            </ng-container>
+
+            <!-- Actions Column with Three Dots Menu -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let movie" class="actions-cell">
+                <div class="actions-group">
+                  <!-- Three Dots Menu Button -->
+                  <button mat-icon-button 
+                          [matMenuTriggerFor]="actionMenu" 
+                          matTooltip="More actions"
+                          class="menu-trigger-btn">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  
+                  <!-- Menu Definition -->
+                  <mat-menu #actionMenu="matMenu">
+                    <!-- View - Always visible -->
+                    <button mat-menu-item (click)="viewMovie(movie.movieId)">
+                      <mat-icon>visibility</mat-icon>
+                      <span>View</span>
+                    </button>
+                    
+                    <!-- Edit & Delete - Only for movie creators -->
+                    @if (canEditMovie(movie)) {
+                      <button mat-menu-item (click)="editMovie(movie.movieId)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                      </button>
+                      <mat-divider></mat-divider>
+                      <button mat-menu-item (click)="deleteMovie(movie.movieId)" class="delete-menu-item">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                    }
+                  </mat-menu>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+
+        <!-- Pagination Section -->
+        <div class="pagination-section">
+          <div class="pagination-info">
+            <span>Showing {{ (paginationInfo().currentPage - 1) * paginationInfo().pageSize + 1 }} - 
+                  {{ Math.min(paginationInfo().currentPage * paginationInfo().pageSize, paginationInfo().totalCount) }} 
+                  of {{ paginationInfo().totalCount }} movies</span>
+          </div>
+          
+          <div class="pagination-controls">
+            <button 
+              mat-button 
+              class="nav-button"
+              [disabled]="paginationInfo().currentPage <= 1 || loading()"
+              (click)="onPageChange(paginationInfo().currentPage - 1)">
+              <mat-icon>chevron_left</mat-icon>
+              Previous
+            </button>
+            
+            <span class="page-info">
+              Page {{ paginationInfo().currentPage }} of {{ paginationInfo().totalPages }}
+            </span>
+            
+            <button 
+              mat-button 
+              class="nav-button"
+              [disabled]="paginationInfo().currentPage >= paginationInfo().totalPages || loading()"
+              (click)="onPageChange(paginationInfo().currentPage + 1)">
+              Next
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+

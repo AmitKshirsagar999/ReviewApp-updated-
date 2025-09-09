@@ -1,0 +1,140 @@
+.full-width { width: 100%; }
+mat-form-field { margin-top: 12px; }
+
+button[mat-raised-button] {
+  background-color: green ! important;
+  color: white;
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 999px;
+
+  :hover{
+    background-color: orange ;
+  }
+}
+
+.helper-text { margin-top: 8px; opacity: .8; }
+.auth-link { margin-top: 12px; text-align: center; }
+
+:host ::ng-deep .mat-mdc-raised-button.mat-primary { background-color: #0f8692 ; }
+
+
+
+.center {
+    background: url('https://images.pexels.com/photos/3945321/pexels-photo-3945321.jpeg') no-repeat center center/cover;
+
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+mat-card {
+  // width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #333;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    .full-width {
+      width: 100%;
+    }
+    
+    button {
+      margin-top: 16px;
+      height: 48px;
+      font-size: 16px;
+    }
+  }
+  
+  p {
+    text-align: center;
+    margin-top: 24px;
+    color: #666;
+    
+    a {
+      color: #1976d2;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.success-message {
+  color: #2e7d32;
+  background-color: #e8f5e8;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  border-left: 4px solid #4caf50;
+  text-align: center;
+}
+
+.error-message {
+  color: #f44336;
+  background-color: #ffebee;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  border-left: 4px solid #f44336;
+  text-align: center;
+}
+
+
+
+// ✅ ADD: CSS animation for Angular 20 style fade-in
+.fade-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ✅ ADD: Optional button hover enhancement
+.register-button {
+  transition: all 0.3s ease;
+  
+  &:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(15, 134, 146, 0.3);
+  }
+}
+
+
+@media (max-width: 480px) {
+  .center {
+    padding: 16px;
+  }
+  
+  mat-card {
+    padding: 20px;
+  }
+}
+
+
+
+
+
+
