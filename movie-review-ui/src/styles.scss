@@ -73,12 +73,12 @@ body {
   // padding: 24px;
   padding-top: 64px;  // Same height as your header toolbar
   background-color:bisque;
-background: url('https://images.pexels.com/photos/3945321/pexels-photo-3945321.jpeg') no-repeat center center/cover;
+background: url('/assets/images/background.jpg') ;
   background-attachment: fixed;
-
+background-size: cover;
   // Remove centering grid styles
   display: block; 
-  padding: 2% 0 2% 0;
+  // padding: 2% 0 2% 0;
 }
 
 /* Card styling to match the mock */

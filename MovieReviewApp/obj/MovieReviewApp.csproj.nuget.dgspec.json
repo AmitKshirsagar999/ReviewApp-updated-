@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kshir\\source\\repos\\MovieReviewApp\\MovieReviewApp\\MovieReviewApp.csproj": {}
+    "C:\\Users\\AmitKshirsagar\\Desktop\\Movie App\\ReviewApp-updated-\\MovieReviewApp\\MovieReviewApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kshir\\source\\repos\\MovieReviewApp\\MovieReviewApp\\MovieReviewApp.csproj": {
+    "C:\\Users\\AmitKshirsagar\\Desktop\\Movie App\\ReviewApp-updated-\\MovieReviewApp\\MovieReviewApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kshir\\source\\repos\\MovieReviewApp\\MovieReviewApp\\MovieReviewApp.csproj",
+        "projectUniqueName": "C:\\Users\\AmitKshirsagar\\Desktop\\Movie App\\ReviewApp-updated-\\MovieReviewApp\\MovieReviewApp.csproj",
         "projectName": "MovieReviewApp",
-        "projectPath": "C:\\Users\\kshir\\source\\repos\\MovieReviewApp\\MovieReviewApp\\MovieReviewApp.csproj",
-        "packagesPath": "C:\\Users\\kshir\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kshir\\source\\repos\\MovieReviewApp\\MovieReviewApp\\obj\\",
+        "projectPath": "C:\\Users\\AmitKshirsagar\\Desktop\\Movie App\\ReviewApp-updated-\\MovieReviewApp\\MovieReviewApp.csproj",
+        "packagesPath": "C:\\Users\\AmitKshirsagar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AmitKshirsagar\\Desktop\\Movie App\\ReviewApp-updated-\\MovieReviewApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\kshir\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AmitKshirsagar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

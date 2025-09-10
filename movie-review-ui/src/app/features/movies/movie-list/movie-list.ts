@@ -16,6 +16,7 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MovieService, MovieSummary,PaginationInfo } from '../../../core/services/movie.service';
 import { AuthService } from '../../../core/auth/auth.service';
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-movie-list',
@@ -31,7 +32,9 @@ import { AuthService } from '../../../core/auth/auth.service';
     MatInputModule,
     MatSelectModule,
     MatChipsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
+
   ],
   templateUrl: './movie-list.html',
   styleUrls: ['./movie-list.scss']
@@ -95,27 +98,62 @@ export class MovieListComponent implements OnInit {
 
 
   // Update loadMovies method
+// loadMovies(page: number = 1) {
+//   this.loading.set(true);
+//   this.movieService.getAllMovies(page, 10).subscribe({
+//     next: (response) => {
+//       this.movies.set(response.movies); // Extract movies array from response
+//       this.paginationInfo.set({
+//         totalCount: response.totalCount,
+//         currentPage: response.currentPage,
+//         pageSize: response.pageSize,
+//         totalPages: response.totalPages
+//       });
+//       this.loading.set(false);
+//     },
+//     error: (error) => {
+//       console.error('Error loading movies:', error);
+//       this.showError('Failed to load movies');
+//       this.loading.set(false);
+//     }
+//   });
+// }
+
+
 loadMovies(page: number = 1) {
   this.loading.set(true);
+  const start = Date.now();
+
   this.movieService.getAllMovies(page, 10).subscribe({
     next: (response) => {
-      this.movies.set(response.movies); // Extract movies array from response
+      this.movies.set(response.movies);
       this.paginationInfo.set({
         totalCount: response.totalCount,
         currentPage: response.currentPage,
         pageSize: response.pageSize,
         totalPages: response.totalPages
       });
-      this.loading.set(false);
+
+      const elapsed = Date.now() - start;
+      const minLoadingTime = 800; // minimum loading time in ms
+
+      setTimeout(() => {
+        this.loading.set(false);
+      }, Math.max(minLoadingTime - elapsed, 0));
     },
     error: (error) => {
       console.error('Error loading movies:', error);
       this.showError('Failed to load movies');
-      this.loading.set(false);
+
+      const elapsed = Date.now() - start;
+      const minLoadingTime = 800;
+
+      setTimeout(() => {
+        this.loading.set(false);
+      }, Math.max(minLoadingTime - elapsed, 0));
     }
   });
 }
-
 
 
 //working one

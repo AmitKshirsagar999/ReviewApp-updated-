@@ -1,8 +1,8 @@
-
+<!-- 
 
 <div class="movie-list-container">
 
-  <!-- Search -->
+  Search
   <mat-card class="search-card">
     <form [formGroup]="searchForm">
       <div class="search-fields">
@@ -26,7 +26,7 @@
     </form>
   </mat-card>
 
-  <!-- Add Movie -->
+  Add Movie
   @if (isAuthenticated) {
     <div class="add-movie-section">
       <a mat-raised-button routerLink="/movies/add">
@@ -36,10 +36,12 @@
     </div>
   }
 
-  <!-- Movies Grid -->
+  Movies Grid
   <div class="movies-grid">
     @if (loading()) {
+
       <div class="loading">Loading movies...</div>
+
     } @else if (movies().length === 0) {
       <div class="empty-state">
         <mat-icon>movie</mat-icon>
@@ -88,13 +90,13 @@
     }
   </div>
 
-  <!-- Pagination Controls -->
+  Pagination Controls
 @if (paginationInfo().totalCount > 0) {
   <div class="pagination-container">
     
     
     <div class="pagination-controls">
-      <!-- Previous Button -->
+      Previous Button
       <button 
         mat-button 
         [disabled]="paginationInfo().currentPage <= 1 || loading()"
@@ -103,12 +105,12 @@
         Previous
       </button>
       
-      <!-- Page Info -->
+      Page Info
       <span class="page-info">
         Page {{ paginationInfo().currentPage }} of {{ paginationInfo().totalPages }}
       </span>
       
-      <!-- Next Button -->
+      Next Button
       <button 
         mat-button 
         [disabled]="paginationInfo().currentPage >= paginationInfo().totalPages || loading()"
@@ -126,4 +128,141 @@
 
 
 
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="movie-list-container">
+
+  <!-- Loader Overlay: covers whole page and fades in smoothly when loading -->
+  @if (loading()) {
+    <div class="pagination-loading-overlay">
+             <mat-progress-spinner diameter="56" mode="indeterminate"></mat-progress-spinner>
+         <div class="loader-text">Loading movies...</div>
+    </div>
+  }
+
+  <!-- Search -->
+  <mat-card class="search-card">
+    <form [formGroup]="searchForm">
+      <div class="search-fields">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            formControlName="title"
+            placeholder="Enter title, director or genre"
+            (keyup.enter)="onSearch()">
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="onSearch()"
+            [disabled]="loading()"
+            class="search-icon-button">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card>
+
+  <!-- Add Movie -->
+  @if (isAuthenticated) {
+    <div class="add-movie-section">
+      <a mat-raised-button routerLink="/movies/add">
+        <mat-icon>add</mat-icon>
+        Add Movie
+      </a>
+    </div>
+  }
+
+  <!-- Movies Grid -->
+  <div class="movies-grid">
+    @if (!loading() && movies().length === 0) {
+      <div class="empty-state">
+        <mat-icon>movie</mat-icon>
+        <p>No movies found</p>
+      </div>
+    } @else if (!loading()) {
+      @for (movie of movies(); track movie.movieId) {
+        <mat-card class="movie-card">
+
+          <mat-card-content>
+            <h3>{{ movie.title }}</h3>
+
+            <div class="movie-info">
+              <span class="director">
+                <mat-icon>person</mat-icon>
+                {{ movie.director }}
+              </span>
+
+              @if (movie.genre) {
+                <mat-chip>{{ movie.genre }}</mat-chip>
+              }
+
+              <span class="year">{{ movie.createdDate | date:'yyyy' }}</span>
+            </div>
+
+            <div class="rating">
+              <div class="stars">
+                @for (star of getStars(movie.averageRating); track $index) {
+                  <mat-icon [class]="star === 'star' ? 'filled' : ''">{{ star }}</mat-icon>
+                }
+              </div>
+              <span class="rating-text">
+                {{ movie.averageRating | number:'1.1-1' }} ({{ movie.reviewCount }} reviews)
+              </span>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <a mat-button color="primary" [routerLink]="'/movies/' + movie.movieId">
+              View Details
+            </a>
+          </mat-card-actions>
+
+        </mat-card>
+      }
+    }
+  </div>
+
+  <!-- Pagination Controls -->
+  @if (paginationInfo().totalCount > 0) {
+    <div class="pagination-container">
+      <div class="pagination-controls">
+        <!-- Previous Button -->
+        <button
+          mat-button
+          [disabled]="paginationInfo().currentPage <= 1 || loading()"
+          (click)="goToPreviousPage()">
+          <mat-icon>chevron_left</mat-icon>
+          Previous
+        </button>
+
+        <!-- Page Info -->
+        <span class="page-info">
+          Page {{ paginationInfo().currentPage }} of {{ paginationInfo().totalPages }}
+        </span>
+
+        <!-- Next Button -->
+        <button
+          mat-button
+          [disabled]="paginationInfo().currentPage >= paginationInfo().totalPages || loading()"
+          (click)="goToNextPage()">
+          Next
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
 </div>

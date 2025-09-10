@@ -30,7 +30,7 @@ import { Location } from '@angular/common';  // ✅ Already added
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
+    // RouterLink,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
@@ -106,23 +106,55 @@ Math = Math;
     return this.isAuthenticated && this.movie() !== null;
   }
 
+  // loadMovieDetails(movieId: number) {
+  //   this.loading.set(true);
+  //   this.movieService.getMovieById(movieId).subscribe({
+  //     next: (movie) => {
+  //       this.movie.set(movie);
+  //       this.loading.set(false);
+  //       // Load paginated reviews separately
+  //       this.loadReviews(movieId, 1);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error loading movie details:', error);
+  //       this.showError('Failed to load movie details');
+  //       this.loading.set(false);
+  //       this.router.navigate(['/movies']);
+  //     }
+  //   });
+  // }
+
+
   loadMovieDetails(movieId: number) {
-    this.loading.set(true);
-    this.movieService.getMovieById(movieId).subscribe({
-      next: (movie) => {
-        this.movie.set(movie);
+  this.loading.set(true);
+  const startTime = Date.now();
+
+  this.movieService.getMovieById(movieId).subscribe({
+    next: (movie) => {
+      this.movie.set(movie);
+
+      const elapsed = Date.now() - startTime;
+      const minLoadingTime = 700;
+      
+      setTimeout(() => {
         this.loading.set(false);
-        // Load paginated reviews separately
+        // Now load reviews only AFTER loader hides
         this.loadReviews(movieId, 1);
-      },
-      error: (error) => {
-        console.error('Error loading movie details:', error);
-        this.showError('Failed to load movie details');
+      }, Math.max(minLoadingTime - elapsed, 0));
+    },
+    error: (error) => {
+      console.error('Error loading movie:', error);
+      this.showError('Failed to load movie details');
+
+      const elapsed = Date.now() - startTime;
+      const minLoadingTime = 700;
+      setTimeout(() => {
         this.loading.set(false);
         this.router.navigate(['/movies']);
-      }
-    });
-  }
+      }, Math.max(minLoadingTime - elapsed, 0));
+    }
+  });
+}
 
 
 
@@ -387,7 +419,7 @@ goToPreviousReviewPage() {
   }
 }
 
-trackByReview(index: number, r: ReviewDto) { return r.reviewId; }
+// trackByReview(index: number, r: ReviewDto) { return r.reviewId; }
 
 
 }

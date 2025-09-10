@@ -21,8 +21,8 @@ button[mat-raised-button] {
 
 
 .center {
-    background: url('https://images.pexels.com/photos/3945321/pexels-photo-3945321.jpeg') no-repeat center center/cover;
-
+background: url('/assets/images/background.jpg') ;
+background-size: cover;
   background-color: antiquewhite;
   display: flex;
   justify-content: center;
