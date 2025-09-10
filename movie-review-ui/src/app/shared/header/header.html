@@ -1,32 +1,3 @@
-<!-- <mat-toolbar class="app-toolbar" color="transparent">
-  <div class="brand" routerLink="/">
-    <mat-icon class="brand-icon">movie</mat-icon>
-    <span class="brand-text">MovieReview</span>
-  </div>
-
-  <span class="spacer"></span>
-
-  <nav class="nav-links">
-    <a mat-button routerLink="/">Home</a> -->
-    <!-- <a mat-button routerLink="/movies">Explore</a> -->
-    
-    <!-- Show these buttons when NOT authenticated -->
-    <!-- @if (!isAuthenticated) {
-      <a mat-button routerLink="/login">Login</a>
-      <a mat-stroked-button routerLink="/register">Register</a>
-    } -->
-     
-    <!-- Show this button when authenticated -->
-    <!-- @if (isAuthenticated) {
-      <button mat-button (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        Logout
-      </button>
-    }
-  </nav>
-</mat-toolbar> -->
-
-
 
 <mat-toolbar class="app-toolbar" color="transparent">
   <div class="brand" routerLink="/">
@@ -59,14 +30,18 @@
           mat-button 
           [matMenuTriggerFor]="userDropdown"
           class="user-button">
-          <span class="username">{{ currentUsername }}</span>
+          <!-- <span class="username">{{ currentUsername }}</span> -->
+
+           <span class="username"><mat-icon class="user-avatar">account_circle</mat-icon></span>
           <mat-icon class="dropdown-arrow">keyboard_arrow_down</mat-icon>
         </button>
 
         <mat-menu #userDropdown="matMenu" class="user-dropdown">
-          <div class="user-info" mat-menu-item disabled>
+          <div class="user-info" mat-menu-item cursor="not-allowed">
             <div class="user-details">
-              <div class="user-name">{{ currentUsername }}</div>
+
+              <!-- <mat-icon class="user-avatar">account_circle</mat-icon> -->
+              <div class="user-name">User : {{ currentUsername }}</div>
               @if (hasUserEmail) {
                 <div class="user-email">{{ userEmail }}</div>
               }
@@ -74,11 +49,13 @@
           </div>
 
 
-          <!-- Add this new menu item --> 
+          <!-- Add this new menu item -->
+          @if (!isOnManageMovies) { 
    <button mat-menu-item routerLink="/manage-movies" class="menu-item">
     <mat-icon>table_view</mat-icon>
     <span>Manage Movies</span>
   </button> 
+          }
 
           
           

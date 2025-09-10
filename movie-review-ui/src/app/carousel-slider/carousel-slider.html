@@ -1,0 +1,15 @@
+<swiper-container
+  slides-per-view="1"
+  navigation="true"
+  pagination="true"
+  autoplay="true"
+  style="width:100%;max-width:700px;height:280px;">
+  <swiper-slide *ngFor="let slide of slides">
+    <div class="carousel-card">
+      <img [src]="slide.img" [alt]="slide.title" />
+      <div class="carousel-caption">
+        <h3>{{slide.title}}</h3>
+      </div>
+    </div>
+  </swiper-slide>
+</swiper-container>

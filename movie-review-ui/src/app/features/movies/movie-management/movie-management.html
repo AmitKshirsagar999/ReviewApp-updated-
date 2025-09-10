@@ -21,14 +21,40 @@
         </mat-hint> -->
       </mat-form-field>
       
-      <mat-form-field appearance="outline" class="genre-select">
+      <!-- <mat-form-field appearance="outline" class="genre-select">
         <mat-label>Genre</mat-label>
         <mat-select [formControl]="genreControl">
           @for (genre of genres; track genre) {
             <mat-option [value]="genre">{{ genre }}</mat-option>
           }
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline" class="genre-select">
+  <mat-label>Genre</mat-label>
+  <mat-select [formControl]="genreControl">
+    <mat-option value="">All</mat-option>
+    <mat-option value="Action">Action</mat-option>
+    <mat-option value="Adventure">Adventure</mat-option>
+    <mat-option value="Animation">Animation</mat-option>
+    <mat-option value="Comedy">Comedy</mat-option>
+    <mat-option value="Crime">Crime</mat-option>
+    <mat-option value="Documentary">Documentary</mat-option>
+    <mat-option value="Drama">Drama</mat-option>
+    <mat-option value="Family">Family</mat-option>
+    <mat-option value="Fantasy">Fantasy</mat-option>
+    <mat-option value="Horror">Horror</mat-option>
+    <mat-option value="Music">Music</mat-option>
+    <mat-option value="Mystery">Mystery</mat-option>
+    <mat-option value="Romance">Romance</mat-option>
+    <mat-option value="Sci-Fi">Sci-Fi</mat-option>
+    <mat-option value="Thriller">Thriller</mat-option>
+    <mat-option value="War">War</mat-option>
+    <mat-option value="Western">Western</mat-option>
+  </mat-select>
+  <!-- <mat-icon matSuffix>category</mat-icon> -->
+</mat-form-field>
+
     </div>
     
     <button mat-raised-button class="add-movie-btn" (click)="addMovie()">

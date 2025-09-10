@@ -6,13 +6,14 @@
 background: url('/assets/images/background.jpg') ;
   background-attachment: fixed;
   // padding: 12px;        /* less padding overall */
-  padding-top: 16px;
+  // padding-top: 16px;
   background-size: cover;
   margin: 5px;
   margin: auto; 
 
   /* Search Bar */
   .search-card {
+    padding-top: none;
     background: transparent;
     box-shadow: none;
     border: none;

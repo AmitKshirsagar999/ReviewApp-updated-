@@ -243,7 +243,9 @@ onSubmit() {
   onCancel() {
     if (this.isEditMode() && this.movieId) {
       // Go back to movie details if editing
-      this.router.navigate(['/movies', this.movieId]);
+      // this.router.navigate(['/movies', this.movieId]);
+      this.location.back();
+
     } else {
       // Go back to movies list if adding
       // this.router.navigate(['/manage-movies']);

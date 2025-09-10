@@ -70,15 +70,12 @@ body {
 
 .page-center {
   min-height: calc(100vh - 64px);
-  // padding: 24px;
   padding-top: 64px;  // Same height as your header toolbar
   background-color:bisque;
 background: url('/assets/images/background.jpg') ;
   background-attachment: fixed;
 background-size: cover;
-  // Remove centering grid styles
   display: block; 
-  // padding: 2% 0 2% 0;
 }
 
 /* Card styling to match the mock */
@@ -128,12 +125,26 @@ button[mat-raised-button] {
 }
 
 
-
-
 // ✅ Keep white background but make it controllable
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color:transparent !important;
   position: none !important;
+}
+
+
+
+.user-dropdown {
+  background: rgba(255,255,255,0.96) !important;
+  box-shadow: 0 10px 36px 0 rgba(48,83,191,0.09), 0 1.5px 5px rgba(51,51,51,0.10) !important;
+  border-radius: 20px !important;
+}
+
+.user-dropdown .menu-item mat-icon {
+  color: #4255b7 !important;
+}
+.user-dropdown .menu-item.logout-item,
+.user-dropdown .menu-item.logout-item mat-icon {
+  color: #dc2626 !important;
 }
 
 
